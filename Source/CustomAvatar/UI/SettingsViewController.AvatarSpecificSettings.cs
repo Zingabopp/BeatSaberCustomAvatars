@@ -149,7 +149,7 @@ namespace CustomAvatar.UI
         {
             if (_calibrating)
             {
-                if (_trackedDeviceManager.waist.tracked)
+                if (_trackedDeviceManager.waist.isTracking)
                 {
                     _waistSphere.SetActive(true);
                     _waistSphere.transform.position = _avatarTailor.ApplyTrackedPointFloorOffset(_avatarManager.currentlySpawnedAvatar, _trackedDeviceManager.waist.position);
@@ -160,7 +160,7 @@ namespace CustomAvatar.UI
                     _waistSphere.SetActive(false);
                 }
 
-                if (_trackedDeviceManager.leftFoot.tracked)
+                if (_trackedDeviceManager.leftFoot.isTracking)
                 {
                     _leftFootSphere.SetActive(true);
                     _leftFootSphere.transform.position = _avatarTailor.ApplyTrackedPointFloorOffset(_avatarManager.currentlySpawnedAvatar, _trackedDeviceManager.leftFoot.position);
@@ -171,7 +171,7 @@ namespace CustomAvatar.UI
                     _leftFootSphere.SetActive(false);
                 }
 
-                if (_trackedDeviceManager.rightFoot.tracked)
+                if (_trackedDeviceManager.rightFoot.isTracking)
                 {
                     _rightFootSphere.SetActive(true);
                     _rightFootSphere.transform.position = _avatarTailor.ApplyTrackedPointFloorOffset(_avatarManager.currentlySpawnedAvatar, _trackedDeviceManager.rightFoot.position);
