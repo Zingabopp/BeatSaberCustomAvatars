@@ -52,6 +52,8 @@ namespace CustomAvatar.Avatar
             {
                 if (_avatar.head && _input.TryGetHeadPose(out Pose headPose))
                 {
+                    ApplyRoomConfiguration(ref headPose);
+
                     _avatar.head.position = headPose.position;
                     _avatar.head.rotation = headPose.rotation;
                 }
@@ -61,6 +63,8 @@ namespace CustomAvatar.Avatar
 
                 if (_avatar.rightHand && _input.TryGetRightHandPose(out Pose rightHandPose))
                 {
+                    ApplyRoomConfiguration(ref rightHandPose);
+
                     _avatar.rightHand.position = rightHandPose.position;
                     _avatar.rightHand.rotation = rightHandPose.rotation;
                     
@@ -73,6 +77,8 @@ namespace CustomAvatar.Avatar
 
                 if (_avatar.leftHand && _input.TryGetLeftHandPose(out Pose leftHandPose))
                 {
+                    ApplyRoomConfiguration(ref leftHandPose);
+
                     _avatar.leftHand.position = leftHandPose.position;
                     _avatar.leftHand.rotation = leftHandPose.rotation;
 
@@ -103,6 +109,8 @@ namespace CustomAvatar.Avatar
                 {
                     if (_avatar.leftLeg && _input.TryGetLeftFootPose(out Pose leftFootPose))
                     {
+                        ApplyRoomConfiguration(ref leftFootPose);
+
                         leftFootPose.position = _tailor.ApplyTrackedPointFloorOffset(_avatar, leftFootPose.position);
 
                         _avatar.leftLeg.position = leftFootPose.position;
@@ -111,6 +119,8 @@ namespace CustomAvatar.Avatar
 
                     if (_avatar.rightLeg && _input.TryGetRightFootPose(out Pose rightFootPose))
                     {
+                        ApplyRoomConfiguration(ref rightFootPose);
+
                         rightFootPose.position = _tailor.ApplyTrackedPointFloorOffset(_avatar, rightFootPose.position);
 
                         _avatar.rightLeg.position = rightFootPose.position;
@@ -119,6 +129,8 @@ namespace CustomAvatar.Avatar
 
                     if (_avatar.pelvis && _input.TryGetWaistPose(out Pose pelvisPose))
                     {
+                        ApplyRoomConfiguration(ref pelvisPose);
+
                         pelvisPose.position = _tailor.ApplyTrackedPointFloorOffset(_avatar, pelvisPose.position);
 
                         _avatar.pelvis.position = pelvisPose.position;
@@ -152,5 +164,14 @@ namespace CustomAvatar.Avatar
         // ReSharper restore UnusedMember.Local
         #pragma warning restore IDE0051
         #endregion
+
+        private void ApplyRoomConfiguration(ref Pose pose)
+        {
+            Vector3 origin = _mainSettingsModel.roomCenter.value;
+            Quaternion originRotation = Quaternion.Euler(0, _mainSettingsModel.roomRotation.value, 0);
+
+            pose.position = origin + originRotation * pose.position;
+            pose.rotation = originRotation * pose.rotation;
+        }
     }
 }
